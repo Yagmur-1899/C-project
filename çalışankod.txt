@@ -1,0 +1,87 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <graphics.h>
+struct xyn{
+	char x[5];
+	char y[5];
+};
+struct xyatoi{
+	float x;
+	float y;
+	
+};
+int main(){
+	
+	char noktalar[100];
+	struct xyn xy[10000];
+	struct xyatoi xya[10000];
+	
+	FILE *dosya=fopen("noktalar.txt","r");
+	
+	if(dosya==NULL){
+		printf("dosya acilamadi!");
+	}
+	
+	
+    int i=0;
+while(!feof(dosya)){
+	fgets(noktalar,100,dosya);
+	sscanf(noktalar,"%s %s",xy[i].x,xy[i].y);
+	xya[i].x=atoi(xy[i].x);
+	xya[i].y=atoi(xy[i].y);
+	i++;	
+	
+}
+	
+ for(int k=0;k<i;k++){
+ 	printf("%s %s\n",xy[k].x,xy[k].y);	}
+	
+	
+float bnoktax=xya[0].x;
+float bnoktay=xya[0].y;
+float inoktax=xya[1].x;
+float inoktay=xya[1].y;
+float yaricap=(sqrt(((bnoktax-inoktax)*(bnoktax-inoktax))+((bnoktay-inoktay)*(bnoktay-inoktay)))/2);
+float mnoktax =(bnoktax+inoktax)/2;
+float mnoktay =(bnoktay+inoktay)/2;
+
+printf("yaricap: %f\n",yaricap);
+printf("merkez noktalari: %f %f\n",mnoktax,mnoktay);
+
+for(int t=2;t<i;t++){
+	if( sqrt((xya[t].x-bnoktax)*(xya[t].x-bnoktax)+(xya[t].y-bnoktay)*(xya[t].y-bnoktay))>sqrt((xya[t].x-inoktax)*(xya[t].x-inoktax)+(xya[t].y-inoktay)*(xya[t].y-inoktay))){
+		yaricap=sqrt((xya[t].x-bnoktax)*(xya[t].x-bnoktax)+(xya[t].y-bnoktay)*(xya[t].y-bnoktay))/2;
+		mnoktax=(xya[t].x+bnoktax)/2;
+		mnoktay=(xya[t].y+bnoktay)/2;
+		inoktax=xya[t].x;
+		inoktay=xya[t].y;
+		
+	}
+else
+{
+	yaricap=sqrt((xya[t].x-inoktax)*(xya[t].x-inoktax)+(xya[t].y-inoktay)*(xya[t].y-inoktay))/2;
+		mnoktax=(xya[t].x+inoktax)/2;
+		mnoktay=(xya[t].y+inoktay)/2;
+		bnoktax=xya[t].x;
+		bnoktay=xya[t].y;
+}
+		
+			
+}
+	
+printf(" yeni yaricap: %f\n",yaricap);
+printf("yeni merkez noktalar: %f %f\n",mnoktax,mnoktay);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	return 0;
+}
